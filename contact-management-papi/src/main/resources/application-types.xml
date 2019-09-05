@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="contact_exp_api_request" format="json">
+      <types:shape format="weave" example="examples/contactManagementRequest.json"><![CDATA[%dw 2.0
+
+type contact_exp_api_request = {|
+  Identification: {|
+    FirstName: String, 
+    LastName: String, 
+    DOB: String, 
+    Gender: String, 
+    Title: String
+  |}, 
+  Address: Array<{|    "addressType ": String,     number: Number {"typeId": "int"},     street: String,     Unit: String,     City: String,     State: String,     zipcode: String  |}>, 
+  Communication: Array<{|    "type": String,     value: String,     preferred: String  |}>
+|} {"example": "{\"Identification\":{\"FirstName\":\"Bob\",\"LastName\":\"Frederick\",\"DOB\":\"06\/21\/1980\",\"Gender\":\"M\",\"Title\":\"Manager\"},\"Address\":[{\"addressType \":\"home\",\"number\":1234,\"street\":\"blah blah St\",\"Unit\":\"1 a\",\"City\":\"Somewhere\",\"State\":\"WV\",\"zipcode\":\"12345\"}],\"Communication\":[{\"type\":\"email\",\"value\":\"bfe@sample.com\",\"preferred\":\"true\"},{\"type\":\"cell\",\"value\":\"304-555-8282\"}]}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#84c32c56-85ca-45ab-a1c5-e580fa72c115">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="contact_exp_api_request"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
