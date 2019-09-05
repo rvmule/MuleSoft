@@ -1,0 +1,22 @@
+{
+  "database_credentials": {
+    "url": "",
+    "driverClass": "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+  },
+  "query": "call dbo.personInformation (:FirstName, :LastName, :DOB, :Gender, :Title, :Number, :Street,:Unit,:State,:Zipcode,:PhoneNumbe,:EmailAddress)",
+  "Parameters": {
+    "FirstName": "Bob",
+    "LastName": "Frederick",
+    "DOB": "06/21/1980",
+    "Gender": "M",
+    "Title": "Manager",
+    "Number": 1234,
+    "Street": "blah blah St",
+    "Unit": "1 a",
+    "City": "Somewhere",
+    "State": "OH",
+    "Zipcode": "12345",
+    "PhoneNumber": "304-555-8282",
+    "Email": "bfe@sample.com"
+  }
+}

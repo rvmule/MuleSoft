@@ -3,22 +3,23 @@ output application/json
 ---
 {
 	database_credentials: {
-		"url": p('mssql.idb.url') default null,
-		"driverClass": p('mssql.idb.driver') default null
-	},
-	Identification_query: {
-		"query" :
-		 "INSERT INTO Customers (FirstName, LastName, DOB, Gender, Title) VALUES" 
-		 ++"("++"'"++ payload.Identification.FirstName ++ "',"++ "'"++ payload.Identification.LastName ++ "',"++ "'"++ payload.Identification.DOB ++ "',"++ "'"++ payload.Identification.Gender ++ "',"++ "'"++ payload.Identification.Title ++ "'"++ ");"	
-		},
-	Address_query: payload.Address map (address,index) -> {
-		"query" :
-		 "INSERT INTO Customers (number, street, Unit, City, State, zipcode) VALUES" 
-		 ++"("++"'"++ address.number ++ "',"++"'"++ address.street ++ "',"++ "'"++ address.Unit ++ "',"++ "'"++ address.City ++ "',"++ "'"++ address.State ++ "',"++ "'" ++ address.zipcode ++ "'"++");"	
-		},
-	Communication_query: payload.Communication map (communication,index) -> {
-		"query" :
-		 "INSERT INTO Customers (value, preferred) VALUES" 
-		 ++"("++ "'"++ communication.value ++ "',"++ "'" ++ (communication.preferred?) ++ "'"++");"	
-		}
+		"url": p('mssql.idb.url'),
+		"driverClass": p('mssql.idb.driver')},
+	"query" : "call dbo.personInformation (:FirstName, :LastName, :DOB, :Gender, :Title, :Number, :Street,:Unit,:State,:Zipcode,:PhoneNumbe,:EmailAddress)",
+	Parameters: {
+	FirstName: payload.Identification.FirstName,
+	LastName: payload.Identification.LastName,
+	DOB: payload.Identification.DOB,
+	Gender: payload.Identification.Gender,
+	Title: payload.Identification.Title,
+	Number: payload.Address.number[0],
+	Street: payload.Address.street[0],
+	Unit: payload.Address.Unit[0],
+	City: payload.Address.City[0],
+	State: payload.Address.State[0],
+	Zipcode: payload.Address.zipcode[0],
+	PhoneNumber: payload.Communication.value[1],
+	Email: payload.Communication.value[0]
+}
+	
 }
