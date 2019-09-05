@@ -4,6 +4,7 @@ Mulesoft:
 Database:
 1. Created Table
 2. Created Stored Procedure which insert data if record doesnt match. If record matches update operation is called.
+3. Run scripts to perform creation and execution of the table.
 
 Front-end:
 1. Created Form fields to insert data and JavaScript to make service call.
