@@ -1,0 +1,120 @@
+#%RAML 1.0 Library
+types:
+  Identification:
+    type: object
+    properties:
+      FirstName:
+        displayName: FirstName
+        description: FirstName
+        type: string
+        example: "Bob"
+        required: true
+      LastName:
+        displayName: LastName
+        description: LastName
+        type: string
+        example: "Frederick"
+        required: true
+      DOB: 
+        displayName: DOB
+        description: DOB
+        type: string
+        example: "06/21/1980"
+        required: true
+      Gender:
+        displayName: Gender
+        description: Gender
+        type: string
+        example: "Male"
+        required: true
+      Title:
+        displayName: Title
+        description: Title
+        type: string
+        example: "Manager"
+        required: true
+  Address:
+    type: array
+    items: 
+      type: object
+      properties:
+       type:
+        displayName: type
+        description: type
+        type: string
+        example: "home"
+        required: false
+       number:
+        displayName: number
+        description: number
+        type: integer
+        example: 12347
+        required: true
+       street:
+        displayName: street
+        description: street
+        type: string
+        example: "123 test dr"
+        required: true
+       Unit:
+        displayName: Unit
+        description: Unit
+        type: string
+        example: "1"
+        required: true
+       City:
+        displayName: City
+        description: City
+        type: string
+        example: "Columbus"
+        required: true
+       State:
+        displayName: State
+        description: State
+        type: string
+        example: "OH"
+        required: true
+       zipcode:
+        displayName: zipcode
+        description: zipcode
+        type: string
+        example: "12345"
+        required: true      
+  Communication:
+    type: array
+    items: 
+      type: object
+      properties:
+        type:
+          displayName: type
+          description: type
+          type: string
+          example: "email"
+          required: true
+        value:
+          displayName: value
+          description: value
+          type: string
+          example: "12347"
+          required: true
+        preferred:
+          displayName: preferred
+          description: preferred
+          type: string
+          example: "123 test dr"
+          required: false
+  contact:
+    type: object
+    properties:
+      Identification:
+        displayName: Identification
+        description: Identification
+        type: Identification
+      Address:
+        displayName: Address
+        description: Address
+        type: Address
+      Communication:
+        displayName: Communication
+        description: Communication
+        type: Communication

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="contactManagementRequest" format="json">
+      <types:shape format="weave" example="examples/contactManagementRequest.json"><![CDATA[%dw 2.0
+
+type contactManagementRequest = {|
+  Identification: {|
+    FirstName: String, 
+    LastName: String, 
+    DOB: String, 
+    Gender: String, 
+    Title: String
+  |}, 
+  Address: Array<{|    "type ": String,     number: Number {"typeId": "int"},     street: String,     Unit: String,     City: String,     State: String,     zipcode: String  |}>, 
+  Communication: Array<{|    "type": String,     value: String,     preferred: String  |}>
+|} {"example": "{\"Identification\":{\"FirstName\":\"Bob\",\"LastName\":\"Frederick\",\"DOB\":\"06\/21\/1980\",\"Gender\":\"M\",\"Title\":\"Manager\"},\"Address\":[{\"type \":\"home\",\"number\":1234,\"street\":\"blah blah St\",\"Unit\":\"1 a\",\"City\":\"Somewhere\",\"State\":\"WV\",\"zipcode\":\"12345\"}],\"Communication\":[{\"type\":\"email\",\"value\":\"bfe@sample.com\",\"preferred\":\"true\"},{\"type\":\"cell\",\"value\":\"304-555-8282\"}]}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#03ec29d7-97a2-415a-9f22-be47e41c4051">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="contactManagementRequest"/>
+        </types:message>
+      </types:input-event>
+      <types:output-event>
+        <types:message>
+          <types:payload type="contactManagementRequest"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

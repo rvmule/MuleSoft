@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	
+	<flow name="post-contact-management-request-flow" doc:id="4c4b289b-c915-485b-b323-7b3a5073b720" >
+		<set-variable value="post-contact-management-request-flow" doc:name="Flow Name" doc:id="063f449c-f9e0-42ed-b278-cf5bde0b260a" variableName="flowName" />
+		<logger level="INFO" doc:name="INFO | Start Logger" doc:id="c8b620ee-efdb-414d-891b-803a232f942a" message="Integration Start Logger:: CID: #[attributes.headers.'CID'], Flow Name: #[vars.flowName]" />
+		<ee:transform doc:name="Map Contact Management Request" doc:id="03ec29d7-97a2-415a-9f22-be47e41c4051" >
+			<ee:message >
+				<ee:set-payload resource="dwl/impl/map_contact_mangement_request.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="DEBUG" doc:name="DEBUG | Request Payload" doc:id="44fbe0fc-4375-47a6-9d4f-70717bb9c30b" message="CID:: #[attributes.headers.'CID'], Contact Management Request:: #[payload]" />
+		<http:request method="POST" doc:name="Contact Process API" doc:id="9d6d8714-b506-48f5-b01c-7d50eb45f799" config-ref="HTTP_Request_configuration_papi" path="${http.contact.papi.path}">
+			<http:headers><![CDATA[#[output application/java
+---
+{
+	"CID" : attributes.headers.'CID'
+}]]]></http:headers>
+		</http:request>
+		<flow-ref doc:name="remove-variables-subflow" doc:id="356436be-27a3-401a-8cdd-bfc519ffbf63" name="remove-variables-subflow"/>
+		<logger level="INFO" doc:name="INFO | End Logger" doc:id="fb960e6d-ed92-4da8-a13a-fd867aa257cf" message="End Logger:: CID: #[attributes.headers.'CID'], Flow Name: #[vars.flowName]" />
+	</flow>
+	<sub-flow name="remove-variables-subflow" doc:id="fafe961a-a388-47e7-be2a-f1dda73f5010" >
+		<remove-variable doc:name="Flow Name" doc:id="82585c33-a34b-4294-827f-b325ae260132" variableName="flowName"/>
+	</sub-flow>
+</mule>

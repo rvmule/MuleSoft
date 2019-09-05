@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<flow name="post-contact-query-to-papi-flow" doc:id="8fdc01aa-b37a-4c07-9e4e-4c40509721ca" >
+		<set-variable value="post-contact-query-to-papi-flow" doc:name="Flow Name" doc:id="d1ddb33c-dc68-4bff-8965-970d211d7e5c" variableName="flowName"/>
+		<logger level="INFO" doc:name="INFO | Start Logger" doc:id="749080cf-ea1e-464b-b042-77cea835a729" message="Integration Start Logger:: CID: #[attributes.headers.'CID'], Flow Name: #[vars.flowName]"/>
+		<ee:transform doc:name="Build DB Creds &amp; Query" doc:id="84c32c56-85ca-45ab-a1c5-e580fa72c115">
+			<ee:message>
+				<ee:set-payload resource="dwl/impl/map_db_query.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="DEBUG | Payload" doc:id="841c1288-9463-4aac-bb59-3bfe161656fb" message="successfully retrieved message from DB:: #[payload]" />
+		<http:request method="GET" doc:name="System API" doc:id="e90e0571-ed37-413e-bad8-b2b5528f842f" config-ref="HTTP_Request_configuration_sapi" path="${http.contact.sapi.path}"/>
+		<flow-ref doc:name="remove-variables-subflow" doc:id="c27a7a84-db3f-4215-8ca0-11284c569095" name="remove-variables-subflow"/>
+		<logger level="INFO" doc:name="INFO | End Logger" doc:id="2011041c-97ce-4b57-9cc5-0bd6b951a7bc" message="End Logger:: CID: #[attributes.headers.'CID'], Flow Name: #[vars.flowName]"/>
+		<error-handler ref="common-exception-handling::set-500-api-error-response" ></error-handler>
+	</flow>
+	<sub-flow name="remove-variables-subflow" doc:id="8cbaac51-2462-4dab-938d-3247c08a796d" >
+		<remove-variable doc:name="Flow Name" doc:id="d75c29a3-18df-4ef3-b0c3-da20015b9271" variableName="flowName"/>
+	</sub-flow>
+
+	
+	</mule>
