@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<error-handler name="common-exception-handling::set-500-api-error-response" doc:id="51e33afb-98f8-41e4-9467-a67bf6d80b4f" >
+		<on-error-continue enableNotifications="false" logException="false" doc:name="On Error Continue" doc:id="951a3fc9-3fd5-4872-a182-d53e10041648" >
+			<ee:transform doc:name="Map Error Response, HTTP Status" doc:id="61c5fb89-4290-46bb-916a-d9fe78fbc934" >
+				<ee:message >
+					<ee:set-payload resource="dwl/common/map_error_response.dwl" />
+				</ee:message>
+			</ee:transform>
+		</on-error-continue>
+	</error-handler>
+</mule>

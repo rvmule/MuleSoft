@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<flow name="insert-payload-into-database-flow" doc:id="c777264f-3c44-47d8-9dce-54c6fb6eafc0" >
+		<set-variable value="insert-payload-into-database-flow" doc:name="Flow Name" doc:id="9ca8c0bb-78c4-4bd6-a857-e912391a179c" variableName="flowName"/>
+		<logger level="INFO" doc:name="INFO | Start Logger" doc:id="74eb3fe0-9708-4cc0-8190-896a1e75dbce" message="Integration Start Logger:: CID: #[attributes.headers.'CID'], Flow Name: #[vars.flowName]"/>
+		<ee:transform doc:name="Map Process API Request" doc:id="2c4383fc-c58d-41dc-91cd-e9acaaae2f84" >
+			<ee:message >
+				<ee:set-payload resource="dwl/impl/map_process_api_request.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="DEBUG" doc:name="DEBUG | Database Query" doc:id="13725156-aa8c-4e02-9f0b-3a79206548c1" message="CID:: #[attributes.headers.'CID'], Retrieved Database Query from Process API: #[output application/json --- payload]"/>
+		<db:stored-procedure doc:name="Person Information Table" doc:id="4423d6b4-1f69-448f-9d4d-b15c21c7b452" config-ref="Database_Config">
+			<db:sql >#[payload.query]</db:sql>
+			<db:in-out-parameters >
+				<db:in-out-parameter key="FirstName" value="#[payload.parameters.FirstName]" />
+				<db:in-out-parameter key="LastName" value="#[payload.parameters.LastName]" />
+				<db:in-out-parameter key="DOB" value="#[payload.parameters.DOB]" />
+				<db:in-out-parameter key="Gender" value="#[payload.parameters.Gender]" />
+				<db:in-out-parameter key="Title" value="#[payload.parameters.Title]" />
+				<db:in-out-parameter key="Number" value="#[payload.parameters.Number]" />
+				<db:in-out-parameter key="Street" value="#[payload.parameters.Street]" />
+				<db:in-out-parameter key="Unit" value="#[payload.parameters.Unit]" />
+				<db:in-out-parameter key="City" value="#[payload.parameters.City]" />
+				<db:in-out-parameter key="State" value="#[payload.parameters.State]" />
+				<db:in-out-parameter key="Zipcode" value="#[payload.parameters.Zipcode]" />
+				<db:in-out-parameter key="PhoneNumber" value="#[payload.parameters.PhoneNumber]" />
+				<db:in-out-parameter key="EmailAddress" value="#[payload.parameters.Email]" />
+			</db:in-out-parameters>
+		</db:stored-procedure>
+		<logger level="INFO" doc:name="INFO | Database Call Success" doc:id="22e83175-1465-409c-8cbe-7323c1b06bd5" message="CID:: #[attributes.headers.'CID'], Database Insert Operation Successful."/>
+		<flow-ref doc:name="remove-variables-subflow" doc:id="911150c3-bfdd-4321-b17e-a2a8fb71c3d7" name="remove-variables-subflow"/>
+		<logger level="INFO" doc:name="INFO | End Logger" doc:id="107ef2df-bf73-4bd7-9b28-c90eb5c63af5" message="End Integration logger:: CID: #[attributes.headers.'CID']"/>
+	</flow>
+	<sub-flow name="remove-variables-subflow" doc:id="40b2b8fd-814f-4d19-9385-906a68348925" >
+		<remove-variable doc:name="Flow Name" doc:id="1e53d63b-2339-4947-86bd-b472f7fb1089" variableName="flowName"/>
+	</sub-flow>
+</mule>

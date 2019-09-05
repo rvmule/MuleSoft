@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="contact_query_request" format="json">
+      <types:shape format="weave" example="examples/contact_management_query.json"><![CDATA[%dw 2.0
+
+type contact_query_request = {|
+  database_credentials: {|
+    url: String, 
+    driverClass: String
+  |}, 
+  query: String, 
+  Parameters: {|
+    FirstName: String, 
+    LastName: String, 
+    DOB: String, 
+    Gender: String, 
+    Title: String, 
+    Number: Number {"typeId": "int"}, 
+    Street: String, 
+    Unit: String, 
+    City: String, 
+    State: Null, 
+    Zipcode: String, 
+    PhoneNumber: String, 
+    Email: String
+  |}
+|} {"example": "{\"database_credentials\":{\"url\":\"jdbc:sqlserver:\/\/;user=;password=\",\"driverClass\":\"com.microsoft.sqlserver.jdbc.SQLServerDriver\"},\"query\":\"call dbo.personInformation (:FirstName, :LastName, :DOB, :Gender, :Title, :Number, :Street,:Unit,:State,:Zipcode,:PhoneNumbe,:EmailAddress)\",\"Parameters\":{\"FirstName\":\"Bob\",\"LastName\":\"Frederick\",\"DOB\":\"06\/21\/1980\",\"Gender\":\"M\",\"Title\":\"Manager\",\"Number\":1234,\"Street\":\"blah blah St\",\"Unit\":\"1 a\",\"City\":\"Somewhere\",\"State\":null,\"Zipcode\":\"12345\",\"PhoneNumber\":\"304-555-8282\",\"Email\":\"bfe@sample.com\"}}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#2c4383fc-c58d-41dc-91cd-e9acaaae2f84">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="contact_query_request"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

@@ -1,0 +1,49 @@
+#%RAML 1.0 Library
+types:
+  database_credentials:
+    type: object
+    properties:
+      url:
+        displayName: url
+        description: url
+        type: string
+        example: "jdbc:sqlserver://;user=;password="
+        required: false
+      driverClass:
+        displayName: driverClass
+        description: driverClass
+        type: string
+        example: "com.jdbc"
+        required: false
+  query:
+    type: string
+    required: true
+  Parameters:
+    type: object
+    properties:
+     FirstName:
+     LastName:
+     DOB:
+     Gender:
+     Title:
+     Number:
+      type: number
+     Street:
+     Unit:
+     City:
+     State:
+     Zipcode:
+     PhoneNumber:
+     Email: 
+          
+  contact:
+    type: object
+    properties:
+      database_credentials:
+        displayName: database_credentials
+        description: database_credentials
+        type: database_credentials
+      query:
+        type: query
+      Parameters:
+        type: Parameters
