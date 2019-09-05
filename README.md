@@ -27,7 +27,7 @@ Mule Experience API End point:
 2. Headers(optional): 'CID': '12345'
 3. Method: POST
 4. Content-type: application/json
-Body:
+5. Body:
 {
 
 	"Identification": {
@@ -120,7 +120,7 @@ Mule System API End point:
 
 Note:
 1. For developement all endpoints are configured to localhost including database.
-2. To make a connection to Database please run the Database Scripts and point to desired to environment changing credentials in System API default.properties file.
+2. To make a connection to Database please run the Database Scripts and point to desired to environment changing credentials in Process API default.properties file.
 3. Front end is configured with Form fields and to point to mulesoft change the IP address @127 line in the script.
 
 
