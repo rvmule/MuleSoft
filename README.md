@@ -1,5 +1,5 @@
 Mulesoft:
-Contact Management API is developed based on API-Led Connectivity approach and Mule 4 version.
+1. Contact Management API is developed based on API-Led Connectivity approach and Mule 4 version.
 
 Database:
 1. Created Table
